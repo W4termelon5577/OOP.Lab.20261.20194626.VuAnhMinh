@@ -1,0 +1,78 @@
+Student: Vu Anh Minh
+Student ID: 20194626
+
+Lab01 answers
+=============================================================================
+
+2.2.1.HelloWorld
+A console application that prints "Hello World!" with System.out.println.
+
+2.2.2.FirstDialog
+The same greeting shown in a graphical dialog with JOptionPane.showMessageDialog.
+System.exit(0) closes the Swing event thread so the program terminates after the dialog is dismissed.
+
+2.2.3.HelloNameDialog
+JOptionPane.showInputDialog reads a name, which is then shown back in a message dialog.
+The input dialog returns null when the user cancels, so that case exits without printing a greeting.
+
+2.2.4.ShowTwoNumbers
+Two input dialogs read the numbers as text.
+Integer.parseInt converts each text into a number, and a message dialog shows both numbers and their sum.
+Non-numeric input raises NumberFormatException, which is caught and reported instead of crashing.
+
+2.2.5.Arithmetic with two double values
+The program reads two double values and reports their sum, difference, product, and quotient.
+Division by zero is reported as undefined instead of printing Infinity or NaN.
+
+2.2.6.Equation solving
+The program supports a linear equation, a two-variable linear system, and a quadratic equation.
+A near-zero leading coefficient is handled as a lower-degree equation.
+Linear systems report a unique solution, no solution, or infinitely many solutions, decided with the determinants D = a*e-b*d, Dx = c*e-b*f and Dy = a*f-c*d.
+Quadratic equations use the discriminant delta = b*b-4*a*c and report two roots, a double root, or that there are no real roots.
+
+6.1.Choosing an option
+The dialog shows Yes, No, and Cancel.
+Closing the window is treated like cancelling, the program reports that outcome without treating it as Yes.
+
+Question 1: What happens if users choose "Cancel"?
+JOptionPane.showOptionDialog returns the index of the chosen button, so "Cancel" returns 2 here.
+If the user closes the dialog with the window X button instead of pressing a button, the method returns JOptionPane.CLOSED_OPTION, which is -1.
+Neither value is 0 or 1, so both are handled by the final else branch and reported as a cancellation.
+The important point is that the return value must be checked: treating any non-zero result as "No", or ignoring CLOSED_OPTION, would make closing the window behave like a real answer.
+
+Question 2: How to customize the options offered to users?
+The button labels come from the Object[] array passed as the seventh argument of showOptionDialog and the last argument selects which of them is focused by default.
+Changing that array changes the buttons, so only two options are shown by passing an array of length two:
+
+    Object[] options = {"Yes", "No"};
+    int choice = JOptionPane.showOptionDialog(null, "Do you want to continue?",
+            "Choose an option", JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+Any labels work the same way, for example {"I do", "I don't"}.
+The return value is still the index into that array: 0 for the first button, 1 for the second, and JOptionPane.CLOSED_OPTION (-1) if the window is closed.
+For the standard sets of buttons, showConfirmDialog with the option type JOptionPane.YES_NO_OPTION gives Yes/No directly, and then the result is compared against JOptionPane.YES_OPTION and JOptionPane.NO_OPTION rather than against array indices.
+
+6.2.Keyboard input and output
+The program reads a full name, an integer age, and a favorite programming language, then prints a short summary.
+A non-numeric age is rejected and asked for again rather than throwing InputMismatchException.
+
+6.3.Triangle of stars
+The triangle is centred, as in the lab example.
+For a height of n, row k is printed with n-k leading spaces followed by 2k-1 stars, so the base row has 2n-1 stars.
+The height must be between 1 and 100; any other input is asked for again.
+
+6.4.Days in a month
+The month is accepted in all four forms required by the lab: the full name (January), the abbreviation (Jan.), three letters (Jan), or the number (1).
+Matching ignores capitalisation and surrounding spaces.
+The year must be written with all of its digits, so 1999 is accepted but the shorthand 99 is not.
+Invalid input for either value is reported and asked for again in a loop instead of ending the program.
+February has 29 days when the year is divisible by 400, or divisible by 4 but not by 100, and 28 days otherwise; 2000 is therefore a leap year while 1900 is not.
+April, June, September, and November have 30 days, and the remaining months have 31.
+
+6.5.Numeric array
+The program reads 1 to 1000 numbers, sorts them in ascending order, and prints the sum and arithmetic mean.
+
+6.6.Matrix addition
+The program reads two matrices of the same requested dimensions and prints their element-by-element sum.
+Dimensions are limited to 1 through 20.
